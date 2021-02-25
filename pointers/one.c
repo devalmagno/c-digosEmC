@@ -3,41 +3,34 @@
 #include <locale.h>
 
 int main() {
-    setlocale(LC_ALL, "Portuguese");
+    // 1) Escreva um programa que declare um inteiro, um real e um char, e ponteiros para inteiro, real, e char. Associe as variáveis aos ponteiros (use &). Modifique os valores de cada variável usando os ponteiros. Imprima os valores das variáveis antes e após a modificação. 
+
+    // Declarando as váriaveis
+    int var1 = 5;
+    float var2 = 1;
+    char var3[2] = "a";
+    int *p1;
+    float *p2;
+    char *p3;
+    p3 = (char*)malloc(2*sizeof(char));
     system("cls");
-    
-    int option=10;
 
+    printf(">>> PONTEIROS\n\n");
 
-    printf("\n>>>    PONTEIROS\n\n");
+    printf("Valor das variaveis antes da modificacao... \n");
 
-    while(option != 0) {
-        printf("Exercicio 1 - ID: \t 1\n\n");
+    printf("var1: %d\nvar2: %f\nvar3: %s\n\n", var1, var2, var3);
 
-        printf("Digite o ID do exercicio: ");
-        scanf("%d\n\n", &option);
+    // Associando os valores das váriaveis aos ponteiros
+    p1 = &var1;
+    p2 = &var2;
+    p3 = var3;
 
-        switch (option)
-        {
-        case 1: ;
-            int v1=0;
-            int * p1;
-            float v2=0; 
-            float * p2;
-            char v3=0;
-            char * p3;
+    // Modificando os valores das váriaveis utilizando os ponteiros
+    *p1 = 6;
+    *p2 = 8;
+    *p3 = 'b';
 
-            printf("Digite o valor de INTEIRO v1: ");
-            scanf("%d%*c\n", &v1);
-            printf("Digite o valor de REAL v2: ");
-            scanf("%f%*c\n", &v2);
-            printf("Digite o valor de CHAR v3: ");
-            scanf("%c%*c\n", v3);
-
-            system("pause");
-            break;
-        default:
-            break;
-        }
-    }
+    printf("Valor das variaveis apos a modificacao\n");
+    printf("var1: %d\nvar2: %f\nvar3: %s\n\n", var1, var2, var3);
 }
