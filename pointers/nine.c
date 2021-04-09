@@ -6,7 +6,7 @@
 
 #define SIZE (5)
 
-void goThroughArrayWithinPointers(int array[SIZE]);
+void passThroughArrayUsingPointers(int array[SIZE]);
 
 int main()
 {
@@ -17,15 +17,15 @@ int main()
 
     printf(">>> POINTEIROS\n\n");
 
-    goThroughArrayWithinPointers(array);
+    passThroughArrayUsingPointers(array);
 
     return 0;
 }
 
-void goThroughArrayWithinPointers(int array[SIZE]) {
+void passThroughArrayUsingPointers(int array[SIZE]) {
     int *p;
 
-    for (p = array; p < SIZE; ++p) {
+    for (p = array; *p; ++p) {
         printf("%d\n", *p);
     }
 }
