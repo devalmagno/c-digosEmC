@@ -5,149 +5,167 @@
 #define CLEAR system("cls");
 #define TITLE printf("\n\n>> Pilha\n");
 
-void push(int stack[], int *top, int stackSize, int number);
-void pop(int stack[], int *top, int stackSize);
-void list(int stack[], int *top, int stackSize);
-void insert(int queue, int array[], int number);
-void delete(int queue, int array[]);
-
-int rpos[2] = { -1, -1};
-int spos[2] = { -1, -1};
+void push(int stack[], int *top, int stackSize, int Fila);
+void pop(int stack[], int *top, int stackSize, int Fila);
+void list(int stack[], int *top, int stackSize, int Fila);
 
 int main() {
     CLEAR;
     
-    int N, number, j, i = 0, alt = 1, num[100], top = -1;
-    int nPar = 0, nImpar = 0;
-    int stackSize = 0;
-    num[0] = 1;
+    int N, option, top[2] = {-1, 39};
 
     TITLE;
 
-    while(number != 0) {
-        printf("Digite o numero[%d]: ", i + 1);
-        scanf("%d", &number);
-        num[i] = number;
-        i++;
-    }
+    int *stack = malloc(80 * sizeof(int));
 
-    for (j = 0; j < i; j++) {
-        if (num[j] % 2 == 0) {
-            nPar++;
-        } else {
-            nImpar++;
+    while(1) {
+        CLEAR;
+        TITLE;
+
+        printf("\n1 - Empilhar valor\n2 - Desempilhar valores\n3 - Listar pilha\n0 - Sair\n\n");
+        printf("\nEscolha: ");
+        scanf("%d", &option);
+
+        switch(option) {
+            case 1:
+                while (option != 0) {
+                    CLEAR;
+                    printf("\n>> Empilhar na pilha\n");
+
+                    printf("\n1 - Pilha 1\n2 - Pilha 2\n0 - Sair\n");
+                    printf("\nEscolha: ");
+                    scanf("%d", &option);
+
+                    if (option == 1) {
+                        push(stack, &top[0], 80, 1);
+                    } else if (option == 2) {
+                        push(stack, &top[1], 80, 2);
+                    } else if (option != 0) {
+                        printf("Opcao nao existe!!\n");
+                        PAUSE;
+                    }
+                }
+
+                break;
+            case 2: 
+                while (option != 0) {
+                    CLEAR;
+                    printf("\n>> Desempilhar da pilha\n");
+
+                    printf("\n1 - Pilha 1\n2 - Pilha 2\n0 - Sair\n");
+                    printf("\nEscolha: ");
+                    scanf("%d", &option);
+
+                    if (option == 1) {
+                        pop(stack, &top[0], 80, 1);
+                    } else if (option == 2) {
+                        pop(stack, &top[1], 80, 2);
+                    } else if (option != 0) {
+                        printf("Opcao nao existe!!\n");
+                        PAUSE;
+                    }
+                }
+
+                break;
+            case 3:
+                while (option != 0) {
+                    CLEAR;
+                    printf("\n>> Listar pilha\n");
+
+                    printf("\n1 - Pilha 1\n2 - Pilha 2\n0 - Sair\n");
+                    printf("\nEscolha: ");
+                    scanf("%d", &option);
+
+                    if (option == 1) {
+                        list(stack, &top[0], 80, 1);
+                    } else if (option == 2) {
+                        list(stack, &top[1], 80, 2);
+                    } else if (option != 0) {
+                        printf("Opcao nao existe!!\n");
+                        PAUSE;
+                    }
+                }
+
+                break;
+            case 0:
+                PAUSE;
+                exit(0);
+                break;
+            default:
+                printf("Nao existe essa opcao!!!\n\n");
+                PAUSE;
         }
     }
-
-    int *par = malloc(nPar * sizeof(int));
-    int *impar = malloc(nImpar * sizeof(int));
-    int *stack = malloc(nPar * sizeof(int));
-
-    for (j = 0; j < i; j++) {
-        if (num[j] % 2 == 0) {
-            insert(1, par, num[j]);
-        } else {
-            insert(2, impar, num[j]);
-        }
-    }
-
-    stackSize = i;
-
-    for (j = 0; j < i; j++) {
-        if (par[j] < 0) {
-            stackSize = stackSize -2;
-        } 
-
-        if (impar[j] < 0) {
-            stackSize = stackSize -2;
-        }
-    }
-
-    for (j = 0; j < i; j++) {
-        if (alt == 1) {
-            if (par[j] > 0) {
-                push(stack, &top, stackSize, par[j]);
-            } else {
-                pop(stack, &top, stackSize);
-            }
-
-            delete(1, par);
-            alt = 0;
-        } else {
-            if (impar[j] > 0) {
-                push(stack, &top, stackSize, par[j]);
-            } else {
-                pop(stack, &top, stackSize);
-            }
-
-            delete(2, impar);
-            alt = 1;
-        }
-    }
-
-    list(stack, &top, stackSize);
 
     return 0;
 }
 
-void push(int stack[], int *top, int stackSize, int number) {
+void push(int stack[], int *top, int stackSize, int Fila) {
+    int number;
+
+    if (*top == -1) {
+        *top = 40 - 1;
+    } else if (*top == 39) {
+        *top = stackSize - 1;
+    }
+
+    printf("\n\nNumero: ");
+    scanf("%d", &number);
+
+    printf("\n\nStatus: ");
     stack[(*top) - 1] = number;
     (*top)--;
+
+    printf("Empilhado %d na Fila %d.\n\n", stack[(*top)], Fila);
+
+    PAUSE;
 }
 
-void pop(int stack[], int *top, int stackSize) {
-    if ((*top) == stackSize - 1) {
-        (*top) = -1;
+void pop(int stack[], int *top, int stackSize, int Fila) {
+    printf("\n\nStatus: ");
+
+    if (*top == -1 || *top == 39) {
+        printf("A pilha esta vazia. \n\n");
     } else {
-        (*top)++;
-    }
-}
+        printf("Fila %d - Desempilhado %d\n\n", Fila, stack[(*top)]);
 
-void list(int stack[], int *top, int stackSize) {
-    int i, cont = 1;
-
-    printf("\n\nPilha:\n\n");
-
-    for (i = stackSize - 1; i >= *top; i--) {
-        printf("[%d]: %d\n", cont, stack[i]);
-        cont++;
+        if (Fila == 1) {
+            if ((*top) == 39 - 1) {
+                (*top) = -1;
+            } else {
+                (*top)++;
+            }
+        } else {
+            if ((*top) == stackSize - 2) {
+                (*top) = 39;
+            } else {
+                (*top)++;
+            }
+        }
     }
 
     PAUSE;
 }
 
-void insert(int queue, int array[], int number) {
-    int i;
+void list(int stack[], int *top, int stackSize, int Fila) {
+    int i, cont = 1;
+    int nStack;
 
-    switch (queue) {
-        case 1:
-            if (rpos[0] == -1) rpos[0] = 0;
+    if (Fila == 1) nStack = 40 - 1;
+    else nStack = stackSize - 1;
 
-            spos[0] = spos[0] + 1;
-            array[spos[0]] = number;
-            break;
-        case 2:
-            if (rpos[1] == -1) rpos[1] = 0;
-            spos[1] = spos[1] + 1;                
-            array[spos[1]] = number;
+    printf("\n\nPilha:\n\n");
 
-            break;
+    if (*top == -1 || *top == 39) {
+        printf("Ainda nao ha elementos na pilha.\n");
+        PAUSE;
+        return;
     }
-}
 
-void delete(int queue, int array[]) {
-    int i;
-
-    switch (queue) {
-        case 1:
-            array[rpos[0]] = 0;
-            rpos[0] = rpos[0] + 1;
-
-            break;
-        case 2:
-            array[rpos[1]] = 0;
-            rpos[1] = rpos[1] + 1;
-
-            break;
+    for (i = nStack - 1; i >= *top; i--) {
+        printf("Pilha %d [%d]: %d\n", Fila, cont, stack[i]);
+        cont++;
     }
+
+    PAUSE;
 }
