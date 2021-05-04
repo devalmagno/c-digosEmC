@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
 
 int main() {
     // 1) Escreva um programa que declare um inteiro, um real e um char, e ponteiros para inteiro, real, e char. Associe as variáveis aos ponteiros (use &). Modifique os valores de cada variável usando os ponteiros. Imprima os valores das variáveis antes e após a modificação. 
@@ -33,4 +32,6 @@ int main() {
 
     printf("Valor das variaveis apos a modificacao\n");
     printf("var1: %d\nvar2: %f\nvar3: %s\n\n", var1, var2, var3);
+
+    return 0;
 }

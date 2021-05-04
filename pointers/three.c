@@ -24,6 +24,8 @@ int main() {
 
     printf("Apos a troca de valores: \n");
     printf("A: %d \t | \t B: %d\n\n", a, b);
+
+    return 0;
 }
 
 void trocaValores(int *a, int *b) {

@@ -1,129 +1,125 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-
-void clear() {
-    #if defined(__linux__)
-        system("clear");
-    #endif
-
-    #if defined(_WIN32)
-        system("cls");
-    #endif
-}
+#include <string.h>
 
 #define MAX 10
+#define CLEAR system("cls");
 
-int p[MAX];
-int spos = 0;
-int rpos = 0;
+void insert();
+void delete();
+void display();
 
-char qretrieve(void);
-void qstore(char q);
-void enter(void);
-void review(void);
-void delete(void);
+int rpos = -1, spos = -1;
+int registrados = 0;
+
+typedef struct cadastraAviao {
+    int id;
+    char nome[41]; 
+} Aviao;
+
+Aviao avioes[MAX];
 
 int main() {
     int option;
-    int i;
 
-    for (i = 0; i < MAX; i++) p[i] = '\0';
 
-    for (;;) {
-        clear();
-        printf("\n>> Pista de Decolagem");
-        printf("\nI - Inserir numero\nL - Listar numeros\nR- Remover Negativos\nS - Sair\n");
+    while (1) {
+        CLEAR;
+        
+        printf(">> FILA\n");
+        printf("\n1 - Adicionar aviao\n2 - Listar avioes\n3 - Autorizar decolagem\n0 - Sair\n");
         printf("\nEscolha: ");
         scanf("%d", &option);
 
         switch(option) {
             case 1:
-                enter();
+                insert();
                 break;
             case 2:
-                review();
+                display();
                 break;
             case 3:
                 delete();
                 break;
             case 0:
+                system("pause");
                 exit(0);
-            default:
-                printf("Opção Inválida");
+                break;
+            default: 
+                printf("\nOpcao invalida.\n");
+                system("pause");
         }
     }
 
-    printf("\n Presione ENTER para sair\n");
-    getchar();
-    
     return 0;
 }
 
-void enter(void) {
-    int num;
+void insert() {
+    if (spos == MAX - 1) printf("\nFila cheia!!\n");
+    else {
+        if (rpos == -1) rpos = 0;
 
-    printf("Insira 0 para sair. \n\n");
+        spos = spos + 1;
 
-    do {
-        printf("Insira o numero [%d]: ", spos + 1);
-        scanf(" %d", &num);
+        printf("Insira o nome do aviao: ");
+        scanf(" %[^\n]*%c\n ", &avioes[spos].nome);
         
-        if (num == 0) {
-            return;
-        } else {
-            qstore(num);
-        }
-    } while (num != 0);
+        avioes[spos].id = spos + 1;
+
+        registrados++;
+    }
+
+    system("pause");
 }
 
-void qstore(char q) {
-    if (spos == MAX) {
-        printf("Lista cheia\n");
+void delete() {
+    int i;
+
+    if (rpos == -1 || rpos > spos) {
+        printf("\nNao ha aviao na fila para autorizar!\n");
+        system("pause");
         return;
     }
 
-    p[spos] = q;
-    spos++;
-}
+    printf("\nO aviao %s foi autorizado decolagem.\n", avioes[rpos].nome);
+    avioes[rpos].id = -1;
 
-void review(void) {
-    int i;
+    rpos = rpos + 1;
 
-    for (i = rpos; i < spos; i++) {
-        printf("\n[%d]: %d", i + 1, p[i]);
-    }
-
-    printf("\n");
+    registrados--;
     
-    if (rpos == spos) {
-        printf("\nSem numeros para exibir.\n");
-        printf("\nspos: %p", spos);
-        printf("\nrpos: %p\n\n", rpos);
-    }
-
     system("pause");
 }
 
-void delete(void) {
-    int num;
-    int tempNum;
+void display() {
+    int i, option;
+    char name[41];
 
-    num = qretrieve();
+    if(rpos == -1) printf("\nA fila de espera esta vazia\n");
+    else {
+        printf("\nAvioes:\n");
 
-    if (!num) return;
-    printf("%d\n", num);
+        for (i = 0; i <= spos; i++) {
+            if (avioes[i].id > 0) printf("[%d]: %s\n", i + 1, avioes[i].nome);
+        }
+    
+        printf("\nDeseja ver as caracteristicas de algum aviao?\n");
+        printf("\n1 - SIM\n2 - NAO\n");
+        printf("\nEscolha: ");
+        scanf("%d", &option);
 
-    scanf("%d", &tempNum);
-    system("pause");
-}
+        if (option == 1) {
+            printf("\nNome do aviao: ");
+            scanf(" %[^\n]*%c\n ", &name);
 
-char qretrieve(void) {
-    if (rpos == spos) {
-        printf("Sem números para remover.\n");
-        system("pause");
+            for (i = 0; i < MAX; i++) {
+                if (strcmp(avioes[i].nome, name) == 0) {
+                    printf("\nNome do Aviao: %s\n", avioes[i].nome);
+                    printf("\nNumero de identificacao: %d\n\n", avioes[i].id);
+                }
+            }
+        }
     }
 
-    rpos++;
-    return p[rpos--];
+    system("pause");
 }

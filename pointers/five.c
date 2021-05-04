@@ -20,6 +20,8 @@ int main()
 
     printf("Apos chamar a funcao: \n");
     printf("A: %d \t | \t B: %d\n\n", a, b);
+
+    return 0;
 }
 
 void somaValores(int *a, int *b)

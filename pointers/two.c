@@ -26,4 +26,6 @@ int main() {
     } else {
         printf("%d VAR2", var2);
     }
+
+    return 0;
 }

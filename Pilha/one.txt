@@ -1,0 +1,7 @@
+1 - Em que situações uma pilha pode ser 
+utilizada?
+
+R: Uma pilha pode ser utilizada em funções 
+recursivas em compiladores, também no mecanismo
+de desfazer/refazer dos editores de texto, na
+navegação enre páginas web, etc...

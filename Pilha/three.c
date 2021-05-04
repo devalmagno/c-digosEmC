@@ -17,9 +17,10 @@ int spos[2] = { -1, -1};
 int main() {
     CLEAR;
     
-    int N, number, j, i = 0, alt = 1, num[100], top = -1;
+    int N, number, j, i = 0, alt = 0, num[100], top = -1;
     int nPar = 0, nImpar = 0;
     int stackSize = 0;
+    int contPar = 0, contImpar = 0;
     num[0] = 1;
 
     TITLE;
@@ -41,7 +42,6 @@ int main() {
 
     int *par = malloc(nPar * sizeof(int));
     int *impar = malloc(nImpar * sizeof(int));
-    int *stack = malloc(nPar * sizeof(int));
 
     for (j = 0; j < i; j++) {
         if (num[j] % 2 == 0) {
@@ -51,38 +51,65 @@ int main() {
         }
     }
 
-    stackSize = i;
+    stackSize = 100;
+
+    int *stack = malloc(stackSize * sizeof(int));
 
     for (j = 0; j < i; j++) {
-        if (par[j] < 0) {
-            stackSize = stackSize -2;
-        } 
+        if (j % 2 != 0) {
+             if (contImpar != nImpar) {
+                if (impar[j] > 0) {
+                    printf("impar: %d\n", impar[contImpar]);
+                    push(stack, &top, stackSize, impar[contImpar]);
+                } else {
+                    pop(stack, &top, stackSize);
+                }
 
-        if (impar[j] < 0) {
-            stackSize = stackSize -2;
-        }
-    }
-
-    for (j = 0; j < i; j++) {
-        if (alt == 1) {
-            if (par[j] > 0) {
-                push(stack, &top, stackSize, par[j]);
-            } else {
-                pop(stack, &top, stackSize);
+                delete(2, impar);
+                contImpar++;
             }
-
-            delete(1, par);
-            alt = 0;
         } else {
-            if (impar[j] > 0) {
-                push(stack, &top, stackSize, par[j]);
-            } else {
-                pop(stack, &top, stackSize);
-            }
+            if (contPar != nPar) {
+                if (par[j] > 0) {
+                    printf("par: %d\n", par[contPar]);
+                    push(stack, &top, stackSize, par[contPar]);
+                } else {
+                    pop(stack, &top, stackSize);
+                }
 
-            delete(2, impar);
-            alt = 1;
+                delete(1, par);
+                alt = 0;
+                contPar++;
+            }
         }
+
+        // if (alt == 1) {
+        //     if (contPar != nPar) {
+        //         if (par[j] > 0) {
+        //             printf("par: %d\n", par[contPar]);
+        //             push(stack, &top, stackSize, par[contPar]);
+        //         } else {
+        //             pop(stack, &top, stackSize);
+        //         }
+
+        //         delete(1, par);
+        //         alt = 0;
+        //         contPar++;
+        //     }
+        // } else {
+        //     if (contImpar != nImpar) {
+        //         if (impar[j] > 0) {
+        //             printf("impar: %d\n", impar[contImpar]);
+        //             push(stack, &top, stackSize, impar[contImpar]);
+        //         } else {
+        //             pop(stack, &top, stackSize);
+        //         }
+
+        //         delete(2, impar);
+        //         alt = 1;
+        //         contImpar++;
+        //     }
+        // }
     }
 
     list(stack, &top, stackSize);
@@ -91,7 +118,12 @@ int main() {
 }
 
 void push(int stack[], int *top, int stackSize, int number) {
+    if (*top == -1) {
+        *top = stackSize - 1;
+    }
+    
     stack[(*top) - 1] = number;
+    printf("%d", stack[(*top) -1]);
     (*top)--;
 }
 

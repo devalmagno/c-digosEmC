@@ -6,9 +6,9 @@
 
 void insert(int queue);
 void display(int queue);
-void intercalar(int queueOne[], int queueTwo[], int *queue[]);
+void intercalar(int queueOne[], int queueTwo[]);
 
-int *majorQueue[MAX + MAX];
+int majorQueue[MAX + MAX];
 int queueOne[MAX];
 int queueTwo[MAX];
 int intercalou = 0;
@@ -39,7 +39,7 @@ int main() {
                 display(option);
                 break;
             case 3:
-                intercalar(queueOne, queueTwo, majorQueue);
+                intercalar(queueOne, queueTwo);
 
                 break;
             case 0:
@@ -119,15 +119,15 @@ void display(int queue) {
                 }
             }
         case 3:
-            if (intercalou != 0) {
-                printf("\nFila intercalada:\n");
-
-                for (i = 0; i <= 20; i++) {
-                    printf("[%d]: %d\n", i + 1, majorQueue[i]);
-                }
+            if (intercalou == 0) {
+                printf("\nFila ainda nao implementada.\n");
             }
 
-            printf("\nFila ainda nao implementada.\n");
+            printf("\nFila intercalada:\n");
+
+            for (i = 0; i < 20; i++) {
+                printf("[%d]: %d\n", i + 1, majorQueue[i]);
+            }
 
             break;
     }
@@ -135,21 +135,19 @@ void display(int queue) {
     system("pause");
 }
 
-void intercalar(int queueOne[], int queueTwo[], int *queue[]) {
+void intercalar(int queueOne[], int queueTwo[]) {
     int size = MAX + MAX;
     int i, j;
+    int contV1 = 0, contV2 = 0;
     
-    for (i = 0; i < size; i++) {        
-        for (j = 0; j < size; j++) {
-            if (i / 2 == 0) {
-                queue[j] = queueOne[j];
-                break;
-            }
-            else if (i / 2 != 0) {
-                queue[j] = queueTwo[j];
-                break;
-            }
-        } 
+    for (i = 0; i < 20; i++) {
+        if (i % 2 == 0) {
+            majorQueue[i] = queueOne[contV1];
+            contV1++;
+        } else {
+            majorQueue[i] = queueTwo[contV2];
+            contV2++;
+        }
     }
 
     intercalou = 1;

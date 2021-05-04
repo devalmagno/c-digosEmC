@@ -1,0 +1,4 @@
+1 - Uma fila pode ser utilizada quando em uma situação onde a operação possuir um valor com limite e precise (ou possa) seguir o conceito de FIFO (Primeiro que entra, primeiro que sai). Exemplos:
+    - Controle de documentos para impressão;
+    - Troca de mensagens entre computadores numa rede;
+    - Num pedágio.
